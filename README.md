@@ -1,6 +1,10 @@
 #youdao-translate.el
 -----
-一个调用有道词典在线翻译API的Elisp扩展程序
+一个调用有道词典在线翻译API的Elisp扩展程序。
+
+依赖：
+
+ - grapnel（<https://github.com/leathekd/grapnel>）
 
 #安装
 -----
