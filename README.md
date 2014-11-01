@@ -24,8 +24,13 @@
 
 #使用
 -----
+
 1、Mark要查询的单词（C-@或者C-Space）
 
 2、执行：`M-x youdao-translate-word`
 
 *注意：默认不支持快捷键（因为我不喜欢）。*
+
+或者输入一个要查询的单词：
+
+    M-x youdao-input->translate

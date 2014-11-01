@@ -9,8 +9,14 @@
 (require 'grapnel)
 
 (defun youdao-translate-word ()
+  "查询被Mark的单词"
   (interactive)
   (youdao-online-translate (buffer-substring-no-properties (mark) (point))))
+
+(defun youdao-input->translate (word)
+  "查询用户输入的单词"
+  (interactive "sInput a word: ")
+  (youdao-online-translate word))
 
 (defun show-basic-result (basic-data)
   (message
