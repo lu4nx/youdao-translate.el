@@ -4,7 +4,7 @@
 
 依赖：
 
- - grapnel（<https://github.com/leathekd/grapnel>）
+ - grapnel：<https://github.com/leathekd/grapnel>（或使用`M-x package-install`安装）
 
 #安装
 -----
