@@ -5,6 +5,7 @@
 ;; Author: lu4nx <lx@shellcodes.org>
 ;; Date: 2014-10-24
 
+(require 'cl)
 (require 'json)
 (require 'grapnel)
 
