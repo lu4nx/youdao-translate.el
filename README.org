@@ -1,37 +1,37 @@
 * youdao-translate.el
 
-一个调用有道词典在线翻译API的Elisp扩展程序。
+A Emacs plugin for using Youdao Translate API.
 
-* 安装
+* Installation
 
-1. 从Github上将代码clone到某目录（如~/.emacs.d）：
+1. Cloning youdao-translate.el from Github to ~/.emacs.d:
 
 #+BEGIN_EXAMPLE
   $ cd ~/.emacs.d
   $ git clone https://github.com/1u4nx/youdao-translate.el.git youdao-translate
 #+END_EXAMPLE
 
-2. 到 [[http://fanyi.youdao.com/openapi?path%3Ddata-mode][http://fanyi.youdao.com/openapi?path=data-mode]] 申请API Key。申请不需要审核，提交信息后马上就可以得到key。
+2. Go to [[http://fanyi.youdao.com/openapi?path%3Ddata-mode][http://fanyi.youdao.com/openapi?path=data-mode]] and apply for an API key.
 
-3. 在Emacs初始化脚本（~/.emacs或~/.emacs.d/init.el）中添加如下代码：
+3. Copying following codes to ~/.emacs or ~/.emacs.d/init.el:
 
 #+BEGIN_SRC elisp
   (add-to-list 'load-path "~/.emacs.d/youdao-translate")
-  (setq youdao-api-key "申请得到的Key")
-  (setq youdao-api-keyfrom "申请得到的Keyfrom")
+  (setq youdao-api-key "Your Key")
+  (setq youdao-api-keyfrom "Your Keyfrom")
   (require 'youdao-translate)
 #+END_SRC
 
-* 使用
+* Usage
 
-1. Mark要查询的单词（C-@或者C-Space）
-
-2. 执行：M-x youdao-translate-word
-
-*注意：默认不支持快捷键（因为我不喜欢）*
-
-或者输入一个要查询的单词：
+Marking a word ( C-@ or C-Space), and run:
 
 #+BEGIN_EXAMPLE
-  M-x youdao-input->translate
+  M-x youdao-translate-word RET
+#+END_EXAMPLE
+
+or using youdao-input->translate and inputting a word:
+
+#+BEGIN_EXAMPLE
+  M-x youdao-input->translate RET
 #+END_EXAMPLE
