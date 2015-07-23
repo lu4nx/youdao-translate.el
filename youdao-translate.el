@@ -1,9 +1,16 @@
-;;; youdao-translate.el ---
+;;; A Emacs plugin for using Youdao Translate API
+;; youdao-translate.el ---
 
 ;; Copyright (C) 2014  lu4nx
 
 ;; Author: lu4nx <lx@shellcodes.org>
-;; Date: 2014-10-24
+;; URL: https://github.com/1u4nx/youdao-translate.el
+;; Created: 24th October 2014
+;; Version: v0.1
+;; Keywords: elisp, youdao, translate
+
+
+;;; Code:
 
 (require 'cl)
 (require 'json)
@@ -50,3 +57,5 @@
     (show-basic-result (cdr (assoc 'basic json-data)))))
 
 (provide 'youdao-translate)
+
+;;; youdao-translate.el ends here
