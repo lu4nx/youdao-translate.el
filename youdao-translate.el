@@ -18,7 +18,9 @@
 (defun youdao-translate-word ()
   "查询被mark的单词"
   (interactive)
-  (youdao-online-translate (buffer-substring-no-properties (mark) (point))))
+  (let ((mark-pos (mark))
+        (point-pos (point)))
+    (youdao-online-translate (buffer-substring-no-properties mark-pos point-pos))))
 
 (defun youdao-input->translate (word)
   "查询用户输入的单词"
@@ -26,17 +28,17 @@
   (youdao-online-translate word))
 
 (defun show-basic-result (basic-data)
+  (when (not basic-data)
+      (error "Not found"))
   (message
-   (if basic-data
-       (with-output-to-string
-         (princ (format "英式发音：%s\n美式发音：%s\n"
-                        (cdr (assoc 'uk-phonetic basic-data))
-                        (cdr (assoc 'us-phonetic basic-data))))
-         (princ "基本释义：\n")
-         (loop for explain across (cdr (assoc 'explains basic-data))
-               do
-               (princ (format "%s\n" explain))))
-     (princ "Not found"))))
+   (with-output-to-string
+     (princ (format "英式发音：%s\n美式发音：%s\n"
+                    (cdr (assoc 'uk-phonetic basic-data))
+                    (cdr (assoc 'us-phonetic basic-data))))
+     (princ "基本释义：\n")
+     (loop for explain across (cdr (assoc 'explains basic-data))
+           do
+           (princ (format "%s\n" explain))))))
 
 (defun url->content (url)
   (with-current-buffer
