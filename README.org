@@ -35,3 +35,7 @@ or using youdao-input->translate and inputting a word:
 #+BEGIN_EXAMPLE
   M-x youdao-input->translate RET
 #+END_EXAMPLE
+* License
+Copyright © 2015-2016 Xi Lu.
+
+Distributed under the GNU General Public License, version 3
