@@ -7,6 +7,7 @@
 ;; URL: https://github.com/1u4nx/youdao-translate.el
 ;; Created: 24th October 2014
 ;; Version: v0.1
+;; License: GPLv3
 ;; Keywords: elisp, youdao, translate
 
 
