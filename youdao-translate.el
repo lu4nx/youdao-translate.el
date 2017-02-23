@@ -19,16 +19,17 @@
 (defun youdao-translate-word ()
   "查询被mark的单词"
   (interactive)
-  (let ((mark-pos (mark))
-        (point-pos (point)))
-    (youdao-online-translate (buffer-substring-no-properties mark-pos point-pos))))
+  (let* ((mark-pos (mark))
+         (point-pos (point))
+         (word (buffer-substring-no-properties mark-pos point-pos)))
+    (youdao-online-translate word)))
 
 (defun youdao-input->translate (word)
   "查询用户输入的单词"
   (interactive "sInput a word: ")
   (youdao-online-translate word))
 
-(defun show-basic-result (basic-data)
+(defun show-translate-result (basic-data)
   (when (not basic-data)
       (error "Not found"))
   (message
@@ -57,7 +58,7 @@
                           word))
          (url-data (decode-coding-string (url->content api-url) 'utf-8))
          (json-data (json-read-from-string url-data)))
-    (show-basic-result (cdr (assoc 'basic json-data)))))
+    (show-translate-result (cdr (assoc 'basic json-data)))))
 
 (provide 'youdao-translate)
 
