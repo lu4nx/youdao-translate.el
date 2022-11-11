@@ -56,9 +56,11 @@
                           youdao-api-keyfrom
                           youdao-api-key
                           word))
-         (url-data (decode-coding-string (url->content api-url) 'utf-8))
-         (json-data (json-read-from-string url-data)))
-    (show-translate-result (cdr (assoc 'basic json-data)))))
+         (url-data (decode-coding-string (url->content api-url) 'utf-8)))
+    (condition-case err
+        (show-translate-result (cdr (assoc 'basic (json-read-from-string url-data))))
+      (json-readtable-error
+       (message "read the JSON data error, please try again")))))
 
 (provide 'youdao-translate)
 
