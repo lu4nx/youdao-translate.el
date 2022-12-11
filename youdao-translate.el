@@ -1,23 +1,23 @@
 ;;; A Emacs plugin for using Youdao Translate API
 ;; youdao-translate.el ---
 
-;; Copyright (C) 2014  lu4nx
+;; Copyright (C) 2022 lu4nx
 
 ;; Author: lu4nx <lx@shellcodes.org>
-;; URL: https://github.com/1u4nx/youdao-translate.el
-;; Created: 24th October 2014
-;; Version: v0.1
+;; URL: https://github.com/lu4nx/youdao-translate.el
+;; Created: October 24, 2014
+;; Update: December 11, 2022
+;; Version: v0.2
 ;; License: GPLv3
 ;; Keywords: elisp, youdao, translate
 
 
 ;;; Code:
 
-(require 'cl)
-(require 'json)
+(require 'xml)
 
 (defun youdao-translate-word ()
-  "查询被mark的单词"
+  "Query the marked word."
   (interactive)
   (let* ((mark-pos (mark))
          (point-pos (point))
@@ -25,22 +25,25 @@
     (youdao-online-translate word)))
 
 (defun youdao-input->translate (word)
-  "查询用户输入的单词"
+  "Input a word and query."
   (interactive "sInput a word: ")
   (youdao-online-translate word))
 
 (defun show-translate-result (basic-data)
   (when (not basic-data)
-      (error "Not found"))
-  (message
-   (with-output-to-string
-     (princ (format "英式发音：%s\n美式发音：%s\n"
-                    (cdr (assoc 'uk-phonetic basic-data))
-                    (cdr (assoc 'us-phonetic basic-data))))
-     (princ "基本释义：\n")
-     (loop for explain across (cdr (assoc 'explains basic-data))
-           do
-           (princ (format "%s\n" explain))))))
+    (princ "data error"))
+  (let* ((root (with-temp-buffer (insert basic-data)
+                                 (xml-parse-region (point-min) (point-max))))
+         (xml-data (car root))
+         (custom-translation (car (xml-get-children xml-data 'custom-translation)))
+         (translation (car (xml-get-children custom-translation 'translation)))
+         (content (car (xml-get-children translation 'content)))
+         (text (car (xml-node-children content))))
+    (message
+     (with-output-to-string
+       (if (null text)
+           (princ "Not found.")
+         (princ (format "基本释义：\n%s\n" (decode-coding-string text 'utf-8))))))))
 
 (defun url->content (url)
   (with-current-buffer
@@ -52,15 +55,11 @@
     (buffer-string)))
 
 (defun youdao-online-translate (word)
-  (let* ((api-url (format "http://fanyi.youdao.com/openapi.do?keyfrom=%s&key=%s&version=1.1&doctype=json&type=data&q=%s"
-                          youdao-api-keyfrom
-                          youdao-api-key
+  (let* ((api-url (format "https://dict.youdao.com/fsearch?client=deskdict&keyfrom=chrome.extension&q=%s&pos=-1
+&doctype=xml&xmlVersion=3.2&dogVersion=1.0&vendor=unknown&appVer=3.1.17.4208&le=eng"
                           word))
-         (url-data (decode-coding-string (url->content api-url) 'utf-8)))
-    (condition-case err
-        (show-translate-result (cdr (assoc 'basic (json-read-from-string url-data))))
-      (json-readtable-error
-       (message "read the JSON data error, please try again")))))
+         (data (url->content api-url)))
+    (show-translate-result data)))
 
 (provide 'youdao-translate)
 

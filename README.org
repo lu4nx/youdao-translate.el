@@ -8,23 +8,19 @@ A Emacs plugin for using Youdao Translate API.
 
 #+BEGIN_EXAMPLE
   $ cd ~/.emacs.d
-  $ git clone https://github.com/1u4nx/youdao-translate.el.git youdao-translate
+  $ git clone https://github.com/lu4nx/youdao-translate.el.git youdao-translate
 #+END_EXAMPLE
 
-2. Go to [[http://fanyi.youdao.com/openapi?path%3Ddata-mode][http://fanyi.youdao.com/openapi?path=data-mode]] and apply for an API key.
-
-3. Copying following codes to ~/.emacs or ~/.emacs.d/init.el:
+2. Copying following codes to ~/.emacs or ~/.emacs.d/init.el:
 
 #+BEGIN_SRC elisp
   (add-to-list 'load-path "~/.emacs.d/youdao-translate")
-  (setq youdao-api-key "Your Key")
-  (setq youdao-api-keyfrom "Your Keyfrom")
   (require 'youdao-translate)
 #+END_SRC
 
 * Usage
 
-Marking a word ( C-@ or C-Space), and run:
+Marking a word ( C-@ or C-Space), and:
 
 #+BEGIN_EXAMPLE
   M-x youdao-translate-word RET
@@ -35,7 +31,7 @@ or using youdao-input->translate and inputting a word:
 #+BEGIN_EXAMPLE
   M-x youdao-input->translate RET
 #+END_EXAMPLE
+
 * License
-Copyright © 2015-2016 Xi Lu.
 
 Distributed under the GNU General Public License, version 3
