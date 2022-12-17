@@ -1,6 +1,6 @@
 * youdao-translate.el
 
-A Emacs plugin for using Youdao Translate API.
+An Emacs plugin for using the Youdao Translate API.
 
 * Installation
 

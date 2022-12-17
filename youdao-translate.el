@@ -1,4 +1,4 @@
-;;; A Emacs plugin for using Youdao Translate API
+;;; An Emacs plugin for using the Youdao Translate API.
 ;; youdao-translate.el ---
 
 ;; Copyright (C) 2022 lu4nx
