@@ -19,9 +19,7 @@
 (defun youdao-translate-word ()
   "Query the marked word."
   (interactive)
-  (let* ((mark-pos (mark))
-         (point-pos (point))
-         (word (buffer-substring-no-properties mark-pos point-pos)))
+  (let ((word (buffer-substring-no-properties (mark) (point))))
     (youdao-online-translate word)))
 
 (defun youdao-input->translate (word)
@@ -30,20 +28,19 @@
   (youdao-online-translate word))
 
 (defun show-translate-result (basic-data)
-  (when (not basic-data)
-    (princ "data error"))
-  (let* ((root (with-temp-buffer (insert basic-data)
-                                 (xml-parse-region (point-min) (point-max))))
-         (xml-data (car root))
-         (custom-translation (car (xml-get-children xml-data 'custom-translation)))
-         (translation (car (xml-get-children custom-translation 'translation)))
-         (content (car (xml-get-children translation 'content)))
-         (text (car (xml-node-children content))))
-    (message
-     (with-output-to-string
-       (if (null text)
-           (princ "Not found.")
-         (princ (format "基本释义：\n%s\n" (decode-coding-string text 'utf-8))))))))
+  (when basic-data
+    (let* ((root (with-temp-buffer (insert basic-data)
+                                   (xml-parse-region (point-min) (point-max))))
+           (xml-data (car root))
+           (custom-translation (car (xml-get-children xml-data 'custom-translation)))
+           (translation (car (xml-get-children custom-translation 'translation)))
+           (content (car (xml-get-children translation 'content)))
+           (text (car (xml-node-children content))))
+      (message
+       (with-output-to-string
+         (if (null text)
+             (princ "Not found.")
+           (princ (format "基本释义：\n%s\n" (decode-coding-string text 'utf-8)))))))))
 
 (defun url->content (url)
   (with-current-buffer
