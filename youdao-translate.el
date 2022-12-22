@@ -20,14 +20,14 @@
   "Query the marked word."
   (interactive)
   (let ((word (buffer-substring-no-properties (mark) (point))))
-    (youdao-online-translate word)))
+    (youdao--online-translate word)))
 
 (defun youdao-input->translate (word)
   "Input a word and query."
   (interactive "sInput a word: ")
-  (youdao-online-translate word))
+  (youdao--online-translate word))
 
-(defun show-translate-result (basic-data)
+(defun youdao--show-translate-result (basic-data)
   (when basic-data
     (let* ((root (with-temp-buffer (insert basic-data)
                                    (xml-parse-region (point-min) (point-max))))
@@ -42,21 +42,20 @@
              (princ "Not found.")
            (princ (format "基本释义：\n%s\n" (decode-coding-string text 'utf-8)))))))))
 
-(defun url->content (url)
-  (with-current-buffer
-      (url-retrieve-synchronously url)
+(defun youdao--url->content (url)
+  (with-current-buffer (url-retrieve-synchronously url)
     (goto-char (point-min))
     (re-search-forward "^$")
     (delete-region (point) (point-min))
     (kill-line)
     (buffer-string)))
 
-(defun youdao-online-translate (word)
+(defun youdao--online-translate (word)
   (let* ((api-url (format "https://dict.youdao.com/fsearch?client=deskdict&keyfrom=chrome.extension&q=%s&pos=-1
 &doctype=xml&xmlVersion=3.2&dogVersion=1.0&vendor=unknown&appVer=3.1.17.4208&le=eng"
                           word))
-         (data (url->content api-url)))
-    (show-translate-result data)))
+         (data (youdao--url->content api-url)))
+    (youdao--show-translate-result data)))
 
 (provide 'youdao-translate)
 
